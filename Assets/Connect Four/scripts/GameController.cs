@@ -127,8 +127,8 @@ namespace ConnectFour
 		GameObject SpawnPiece()
 		{
 			Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					
-			if(!isPlayersTurn)
+            Debug.Log("boom");
+            if (!isPlayersTurn)
 			{
 				List<int> moves = GetPossibleMoves();
 
@@ -262,7 +262,10 @@ namespace ConnectFour
 
         public void Drop()
         {
+            SpawnPiece();
             StartCoroutine(dropPiece(gameObjectTurn));
+            
+            
         }
 		/// <summary>
 		/// This method searches for a empty cell and lets 
