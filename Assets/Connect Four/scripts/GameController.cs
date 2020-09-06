@@ -207,13 +207,13 @@ namespace ConnectFour
 				else
 				{
 					// update the objects position
-					Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					/*Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					gameObjectTurn.transform.position = new Vector3(
 						Mathf.Clamp(pos.x, 0, numColumns-1), 
-						gameObjectField.transform.position.y + 1, 0);
+						gameObjectField.transform.position.y + 1, 0);*/
 
 					// click the left mouse button to drop the piece into the selected column
-					if(Input.GetMouseButtonDown(0) && !mouseButtonPressed && !isDropping)
+					/*if(Input.GetMouseButtonDown(0) && !mouseButtonPressed && !isDropping)
 					{
 						mouseButtonPressed= true;
 
@@ -222,7 +222,7 @@ namespace ConnectFour
 					else
 					{
 						mouseButtonPressed = false;
-					}
+					}*/
 				}
 			}
 			else
@@ -260,6 +260,10 @@ namespace ConnectFour
 			return possibleMoves;
 		}
 
+        public void Drop()
+        {
+            StartCoroutine(dropPiece(gameObjectTurn));
+        }
 		/// <summary>
 		/// This method searches for a empty cell and lets 
 		/// the object fall down into this cell
