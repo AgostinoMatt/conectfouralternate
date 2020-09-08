@@ -128,7 +128,7 @@ namespace ConnectFour
 		{
 			Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Debug.Log("boom");
-            if (!isPlayersTurn)
+            if (!isPlayersTurn && !SceneLoader.instance.TwoPlayer)
 			{
 				List<int> moves = GetPossibleMoves();
 
