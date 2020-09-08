@@ -235,6 +235,13 @@ namespace ConnectFour
 				{
 					if(!isDropping && !SceneLoader.Instance.TwoPlayer)
 						StartCoroutine(dropPiece(gameObjectTurn));
+                    if (SceneLoader.Instance.TwoPlayer)
+                    {
+                        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        gameObjectTurn.transform.position = new Vector3(
+                            Mathf.Clamp(pos.x, 0, numColumns - 1),
+                            gameObjectField.transform.position.y + 1, 0);
+                    }
 
                     else if (mouseButtonPressed)
                     {
