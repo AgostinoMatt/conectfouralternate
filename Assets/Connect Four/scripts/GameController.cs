@@ -233,8 +233,13 @@ namespace ConnectFour
 				}
 				else
 				{
-					if(!isDropping)
+					if(!isDropping && !SceneLoader.Instance.TwoPlayer)
 						StartCoroutine(dropPiece(gameObjectTurn));
+
+                    else if (mouseButtonPressed)
+                    {
+                        StartCoroutine(dropPiece(gameObjectTurn));
+                    }
 				}
 			}
 		}
