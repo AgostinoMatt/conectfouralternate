@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace ConnectFour
 {
@@ -165,7 +166,7 @@ namespace ConnectFour
 					btnPlayAgainTouching = true;
 					
 					//CreateField();
-					Application.LoadLevel(0);
+					SceneManager.LoadScene(0);
 				}
 			}
 			else
@@ -197,58 +198,6 @@ namespace ConnectFour
 
 				return;
 			}
-
-			if(isPlayersTurn)
-			{
-				if(gameObjectTurn == null)
-				{
-					gameObjectTurn = SpawnPiece();
-				}
-				else
-				{
-					// update the objects position
-					Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					gameObjectTurn.transform.position = new Vector3(
-						Mathf.Clamp(pos.x, 0, numColumns-1), 
-						gameObjectField.transform.position.y + 1, 0);
-
-					// click the left mouse button to drop the piece into the selected column
-					/*if(Input.GetMouseButtonDown(0) && !mouseButtonPressed && !isDropping)
-					{
-						mouseButtonPressed= true;
-
-						StartCoroutine(dropPiece(gameObjectTurn));
-					}
-					else
-					{
-						mouseButtonPressed = false;
-					}*/
-				}
-			}
-			else
-			{
-				if(gameObjectTurn == null)
-				{
-					gameObjectTurn = SpawnPiece();
-				}
-				else
-				{
-					if(!isDropping && !SceneLoader.Instance.TwoPlayer)
-						StartCoroutine(dropPiece(gameObjectTurn));
-                    if (SceneLoader.Instance.TwoPlayer)
-                    {
-                        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        gameObjectTurn.transform.position = new Vector3(
-                            Mathf.Clamp(pos.x, 0, numColumns - 1),
-                            gameObjectField.transform.position.y + 1, 0);
-                    }
-
-                    else if (mouseButtonPressed)
-                    {
-                        StartCoroutine(dropPiece(gameObjectTurn));
-                    }
-				}
-			}
 		}
 
 		/// <summary>
@@ -274,10 +223,8 @@ namespace ConnectFour
 
         public void Drop()
         {
-            SpawnPiece();
-            StartCoroutine(dropPiece(gameObjectTurn));
-            
-            
+            if (gameObjectTurn == null) gameObjectTurn = SpawnPiece();
+			if (!isDropping) StartCoroutine(dropPiece(gameObjectTurn));
         }
 		/// <summary>
 		/// This method searches for a empty cell and lets 
@@ -312,7 +259,7 @@ namespace ConnectFour
 			if(foundFreeCell)
 			{
 				// Instantiate a new Piece, disable the temporary
-				GameObject g = Instantiate (gObject) as GameObject;
+				GameObject g = Instantiate (gObject);
 				gameObjectTurn.GetComponent<Renderer>().enabled = false;
 
 				float distance = Vector3.Distance(startPosition, endPosition);
@@ -387,8 +334,8 @@ namespace ConnectFour
 						Vector3.up, 
 						numPiecesToWin - 1, 
 						layermask);
-					
-					if(hitsVert.Length == numPiecesToWin - 1)
+
+					if (hitsVert.Length == numPiecesToWin - 1)
 					{
 						gameOver = true;
 						break;
